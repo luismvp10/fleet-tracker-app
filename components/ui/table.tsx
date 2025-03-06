@@ -1,38 +1,38 @@
 import * as React from "react";
 
 const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
-    ({ className, ...props }, ref) => (
+    ({ className = "", ...props }, ref) => (
         <div className="relative w-full overflow-auto">
-            <table ref={ref} className={`w-full caption-bottom text-sm ${className || ""}`} {...props} />
+            <table ref={ref} className={`w-full caption-bottom text-sm bg-white text-black dark:bg-gray-900 dark:text-white ${className}`} {...props} />
         </div>
     )
 );
 Table.displayName = "Table";
 
 const TableHeader = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(
-    ({ className, ...props }, ref) => <thead ref={ref} className={`border-b ${className || ""}`} {...props} />
+    ({ className = "", ...props }, ref) => <thead ref={ref} className={`border-b bg-gray-100 dark:bg-gray-800 ${className}`} {...props} />
 );
 TableHeader.displayName = "TableHeader";
 
 const TableBody = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(
-    ({ className, ...props }, ref) => (
-        <tbody ref={ref} className={`[&_tr:last-child]:border-0 ${className || ""}`} {...props} />
+    ({ className = "", ...props }, ref) => (
+        <tbody ref={ref} className={`[&_tr:last-child]:border-0 ${className}`} {...props} />
     )
 );
 TableBody.displayName = "TableBody";
 
 const TableFooter = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(
-    ({ className, ...props }, ref) => (
-        <tfoot ref={ref} className={`border-t bg-muted/50 font-medium [&>tr]:last:border-b-0 ${className || ""}`} {...props} />
+    ({ className = "", ...props }, ref) => (
+        <tfoot ref={ref} className={`border-t bg-gray-200 dark:bg-gray-700 font-medium [&>tr]:last:border-b-0 ${className}`} {...props} />
     )
 );
 TableFooter.displayName = "TableFooter";
 
 const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTMLTableRowElement>>(
-    ({ className, ...props }, ref) => (
+    ({ className = "", ...props }, ref) => (
         <tr
             ref={ref}
-            className={`border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted ${className || ""}`}
+            className={`border-b transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 ${className}`}
             {...props}
         />
     )
@@ -40,10 +40,10 @@ const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTML
 TableRow.displayName = "TableRow";
 
 const TableHead = React.forwardRef<HTMLTableCellElement, React.ThHTMLAttributes<HTMLTableCellElement>>(
-    ({ className, ...props }, ref) => (
+    ({ className = "", ...props }, ref) => (
         <th
             ref={ref}
-            className={`h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 ${className || ""}`}
+            className={`h-12 px-4 text-left align-middle font-medium text-gray-700 dark:text-gray-300 ${className}`}
             {...props}
         />
     )
@@ -51,15 +51,15 @@ const TableHead = React.forwardRef<HTMLTableCellElement, React.ThHTMLAttributes<
 TableHead.displayName = "TableHead";
 
 const TableCell = React.forwardRef<HTMLTableCellElement, React.TdHTMLAttributes<HTMLTableCellElement>>(
-    ({ className, ...props }, ref) => (
-        <td ref={ref} className={`p-4 align-middle [&:has([role=checkbox])]:pr-0 ${className || ""}`} {...props} />
+    ({ className = "", ...props }, ref) => (
+        <td ref={ref} className={`p-4 align-middle text-gray-900 dark:text-gray-100 ${className}`} {...props} />
     )
 );
 TableCell.displayName = "TableCell";
 
 const TableCaption = React.forwardRef<HTMLTableCaptionElement, React.HTMLAttributes<HTMLTableCaptionElement>>(
-    ({ className, ...props }, ref) => (
-        <caption ref={ref} className={`mt-4 text-sm text-muted-foreground ${className || ""}`} {...props} />
+    ({ className = "", ...props }, ref) => (
+        <caption ref={ref} className={`mt-4 text-sm text-gray-600 dark:text-gray-400 ${className}`} {...props} />
     )
 );
 TableCaption.displayName = "TableCaption";

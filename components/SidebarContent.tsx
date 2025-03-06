@@ -1,9 +1,11 @@
 import Link from "next/link";
-import {usePathname} from "next/navigation";
+
 import Image from "next/image";
+import {usePathname} from "next/navigation";
 import {navItems} from "@/constants/menu.constant";
 import {Button} from "@/components/ui/button";
 import {LogOut} from "lucide-react";
+import {ThemeToggle} from "@/components/ThemeToggle";
 
 interface Props {
     setMobileMenuOpen: (open: boolean) => void;
@@ -16,7 +18,7 @@ export function SidebarContent  ({ setMobileMenuOpen, handleLogout}: Props): JSX
     return (
         <>
         <div className="flex h-20 items-center border-b px-4 py-4 ">
-            <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
+            <Link href="/components/dashboard" className="flex items-center gap-2 font-semibold">
                 <Image className="mr-2" src={'./images/fleet.png'} alt={'Fleet monitoring icon'} width={50} height={50} />
                 <span>Fleet Tracker</span>
             </Link>
@@ -40,8 +42,8 @@ export function SidebarContent  ({ setMobileMenuOpen, handleLogout}: Props): JSX
         </div>
         <div className="p-4 space-y-4">
             <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Theme</span>
-                {/*<ThemeToggle />*/}
+                {/*<span className="text-sm text-muted-foreground">Theme</span>*/}
+                <ThemeToggle />
             </div>
             <Button variant="outline" className="w-full justify-start"
                     onClick={handleLogout}>

@@ -1,8 +1,8 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import {DashboardHeader} from "@/dashboard/components/DashboardHeader";
-import {TrackingMap} from "@/tracking/components/TrackingMap";
-import {VehicleTable} from "@/tracking/components/VehicleTable";
+import {DashboardHeader} from "@/components/dashboard/DashboardHeader";
+import {TrackingMap} from "@/components/tracking/TrackingMap";
+import {VehicleTable} from "@/components/tracking/VehicleTable";
 
 export default function TrackingPage() {
     return (

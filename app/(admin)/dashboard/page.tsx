@@ -1,9 +1,9 @@
 
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import {DashboardHeader} from "@/dashboard/components/DashboardHeader";
-import {DashboardCards} from "@/dashboard/components/DashboardCards";
-import {DashboardCharts} from "@/dashboard/components/DashboardChart";
+import {DashboardHeader} from "@/components/dashboard/DashboardHeader";
+import {DashboardCards} from "@/components/dashboard/DashboardCards";
+import {DashboardCharts} from "@/components/dashboard/DashboardChart";
 
 export default function DashboardPage() {
     return (

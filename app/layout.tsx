@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import {AuthProvider} from "@/providers/AuthProvider";
 import "@/styles/globals.css"
 import {NextFont} from "next/dist/compiled/@next/font";
+import {ThemeProvider} from "@/providers/ThemeProvider";
 
 const inter: NextFont = Inter({ subsets: ['latin'] });
 
@@ -22,10 +23,11 @@ export default function RootLayout({
       <body
         className={`${inter.className}  antialiased`}
       >
-      <AuthProvider>
-          {children}
-      </AuthProvider>
-
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <AuthProvider>
+                  {children}
+              </AuthProvider>
+          </ThemeProvider>
       </body>
     </html>
   );

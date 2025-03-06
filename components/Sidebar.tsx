@@ -13,6 +13,7 @@ import {navItems} from "@/constants/menu.constant";
 import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
 import {Button} from "@/components/ui/button";
 import {useAuth} from "@/hooks/use-auth";
+import {ThemeToggle} from "@/components/ThemeToggle";
 
 export function Sidebar() {
     const pathname: string = usePathname();
@@ -34,7 +35,7 @@ export function Sidebar() {
                     <Menu className="h-5 w-5" />
                     <span className="sr-only">Toggle menu</span>
                 </Button>
-                <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
+                <Link href="/components/dashboard" className="flex items-center gap-2 font-semibold">
                     <Image className="" src={'./images/fleet.png'} alt={'Fleet monitoring icon'} width={50} height={50} />
                     <span>Fleet Tracker</span>
                 </Link>
@@ -51,7 +52,7 @@ export function Sidebar() {
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="flex h-14 items-center justify-between border-b px-4">
-                            <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
+                            <Link href="/components/dashboard" className="flex items-center gap-2 font-semibold">
                                 <Image className="" src={'./images/fleet.png'} alt={'Fleet monitoring icon'} width={50} height={50} />
                                 <span>Fleet Monitor</span>
                             </Link>
@@ -79,8 +80,8 @@ export function Sidebar() {
                             </div>
                             <div className="p-4 space-y-4">
                                 <div className="flex items-center justify-between">
-                                    <span className="text-sm text-muted-foreground">Theme</span>
-                                    {/*<ThemeToggle />*/}
+                                    {/*<span className="text-sm text-muted-foreground">Theme</span>*/}
+                                    <ThemeToggle />
                                 </div>
                                 <Button variant="outline" className="w-full justify-start" onClick={handleLogout}>
                                     <LogOut className="mr-2 h-4 w-4" />
