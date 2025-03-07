@@ -1,36 +1,94 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Guía para levantar el proyecto usando Docker
 
-First, run the development server:
+## 1. Construir la Imagen de Docker
+Asegúrate de que el `Dockerfile` esté en la raíz del proyecto. Luego, en la terminal, navega a la carpeta del proyecto y ejecuta:
+
+```bash
+docker build -t nombre-del-proyecto .
+```
+
+Esto construirá la imagen de Docker para el proyecto y la etiquetará con el nombre `nombre-del-proyecto`.
+
+## 2. Levantar el Contenedor
+Una vez construida la imagen, ejecuta el siguiente comando para iniciar el contenedor:
+
+```bash
+docker run -p 3000:3000 nombre-del-proyecto
+```
+
+Esto levantará el proyecto y lo hará disponible en `http://localhost:3000`.
+
+## 3. Otros Comandos Útiles
+- **Ver los contenedores activos**:
+  ```bash
+  docker ps
+  ```
+
+- **Detener un contenedor**:
+  ```bash
+  docker stop <ID_DEL_CONTENEDOR>
+  ```
+
+- **Eliminar un contenedor**:
+  ```bash
+  docker rm <ID_DEL_CONTENEDOR>
+  ```
+
+- **Eliminar una imagen**:
+  ```bash
+  docker rmi nombre-del-proyecto
+  ```
+
+
+# Guía para levantar el proyecto sin Docker
+
+## 1. Instalar las Dependencias
+Antes de ejecutar el proyecto, asegúrate de tener **Node.js** y **npm** instalados en tu máquina. Si no los tienes, puedes descargarlos desde [aquí](https://nodejs.org/).
+
+Una vez tengas Node.js y npm instalados, navega a la carpeta de tu proyecto y ejecuta el siguiente comando para instalar las dependencias definidas en el archivo `package.json`:
+
+```bash
+npm install
+```
+
+## 2. Levantar el Proyecto en Modo de Desarrollo
+Una vez que las dependencias estén instaladas, ejecuta el siguiente comando para iniciar el servidor de desarrollo:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Esto iniciará el servidor y podrás acceder a la aplicación en tu navegador en la siguiente URL:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 3. Comandos Adicionales
+- **Ejecutar los Tests**: Para correr los tests con Jest:
 
-## Learn More
+  ```bash
+  npm test
+  ```
 
-To learn more about Next.js, take a look at the following resources:
+- **Verificar la cobertura de los Tests**:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+  ```bash
+  npm run test:coverage
+  ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Construir la aplicación para producción**:
 
-## Deploy on Vercel
+  ```bash
+  npm run build
+  ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Iniciar la aplicación en producción**:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+  ```bash
+  npm run start
+  ```
+
+## 4. Acceder a la Aplicación
+Después de ejecutar `npm run dev`, podrás ver la aplicación corriendo en tu navegador en la dirección `http://localhost:3000`.
