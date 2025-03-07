@@ -6,7 +6,7 @@ import { Download } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useVehicleStore } from "@/stores/vehicle-store";
-import {generateDateRange} from "@/lib/mock-data.util";
+import { generateFleetMileageData} from "@/lib/mock-data.util";
 
 export function DashboardCharts() {
     const [chartData, setChartData] = useState<any[]>([]);
@@ -39,16 +39,16 @@ export function DashboardCharts() {
     }, [lastUpdated])
 
     // Función para cargar los datos del gráfico
-    const loadChartData:() => void = (): void => {
+    const loadChartData: () => void = (): void => {
         setLoading(true);
 
-        // Simulate loading
         setTimeout(() => {
-            const dynamicData = generateDynamicData()
-            setChartData(dynamicData);
+            const { data, totalDistance } = generateFleetMileageData(); // Extraer correctamente los datos
+            setChartData(data);
+            // Aquí podrías hacer algo con `totalDistance`, si es necesario mostrarlo en el Dashboard
             setLoading(false);
-        }, 800)
-    }
+        }, 800);
+    };
 
     // Función para exportar a CSV
     const exportToCSV = () => {
@@ -147,51 +147,51 @@ export function DashboardCharts() {
 
 
 
-function generateDynamicData() {
-
-    // Fechas para los últimos 15 días
-    const dates: string[] = generateDateRange();
-
-
-    // Valores base para el kilometraje total - Usamos un valor aleatorio para que cambie en cada refresh
-    const baseTotalMileage: number = 800 + Math.floor(Math.random() * 300); // Entre 800 y 1100
-    const totalMileageIncrement: number = 40 + Math.floor(Math.random() * 20); // Entre 40 y 60
-
-    // Generar datos con variaciones más dinámicas
-    return dates.map((date, i) => {
-        // Calcular el kilometraje total con una tendencia ascendente general
-        // pero con fluctuaciones aleatorias significativas
-        const randomFactor: number = Math.random() * 200 - 100 // -100 a +100 (mayor variación)
-        const totalMileage: number = Math.round(baseTotalMileage + i * totalMileageIncrement + randomFactor)
-
-        // Calcular el kilometraje promedio con más variación
-        const dayOfWeek = new Date(date).getDay();
-
-        // Más actividad en días laborables, menos en fines de semana
-        let avgFactor = 1.0;
-        if (dayOfWeek === 0 || dayOfWeek === 6) {
-            // Fin de semana
-            avgFactor = 0.7 + Math.random() * 0.4 // 0.7-1.1 (menos actividad)
-        } else if (dayOfWeek === 1 || dayOfWeek === 5) {
-            // Lunes y viernes
-            avgFactor = 0.9 + Math.random() * 0.4; // 0.9-1.3 (actividad media)
-        } else {
-            // Martes a jueves
-            avgFactor = 1.0 + Math.random() * 0.5; // 1.0-1.5 (más actividad)
-        }
-
-        // Añadir variación adicional basada en el día anterior
-        const randomVariation: number = Math.random() * 15 - 7 // -7 a +7 (mayor variación)
-
-        // Calcular el promedio final (entre 60-90 km)
-        const avgMileage: number = Math.round(60 + i * 2 * avgFactor + randomVariation);
-
-        return {
-            date,
-            "Total Fleet Mileage (km)": totalMileage,
-            "Average Vehicle Mileage (km)": avgMileage,
-        }
-    })
-}
+// function generateDynamicData() {
+//
+//     // Fechas para los últimos 15 días
+//     const dates: string[] = generateDateRange();
+//
+//
+//     // Valores base para el kilometraje total - Usamos un valor aleatorio para que cambie en cada refresh
+//     const baseTotalMileage: number = 800 + Math.floor(Math.random() * 300); // Entre 800 y 1100
+//     const totalMileageIncrement: number = 40 + Math.floor(Math.random() * 20); // Entre 40 y 60
+//
+//     // Generar datos con variaciones más dinámicas
+//     return dates.map((date, i) => {
+//         // Calcular el kilometraje total con una tendencia ascendente general
+//         // pero con fluctuaciones aleatorias significativas
+//         const randomFactor: number = Math.random() * 200 - 100 // -100 a +100 (mayor variación)
+//         const totalMileage: number = Math.round(baseTotalMileage + i * totalMileageIncrement + randomFactor)
+//
+//         // Calcular el kilometraje promedio con más variación
+//         const dayOfWeek = new Date(date).getDay();
+//
+//         // Más actividad en días laborables, menos en fines de semana
+//         let avgFactor = 1.0;
+//         if (dayOfWeek === 0 || dayOfWeek === 6) {
+//             // Fin de semana
+//             avgFactor = 0.7 + Math.random() * 0.4 // 0.7-1.1 (menos actividad)
+//         } else if (dayOfWeek === 1 || dayOfWeek === 5) {
+//             // Lunes y viernes
+//             avgFactor = 0.9 + Math.random() * 0.4; // 0.9-1.3 (actividad media)
+//         } else {
+//             // Martes a jueves
+//             avgFactor = 1.0 + Math.random() * 0.5; // 1.0-1.5 (más actividad)
+//         }
+//
+//         // Añadir variación adicional basada en el día anterior
+//         const randomVariation: number = Math.random() * 15 - 7 // -7 a +7 (mayor variación)
+//
+//         // Calcular el promedio final (entre 60-90 km)
+//         const avgMileage: number = Math.round(60 + i * 2 * avgFactor + randomVariation);
+//
+//         return {
+//             date,
+//             "Total Fleet Mileage (km)": totalMileage,
+//             "Average Vehicle Mileage (km)": avgMileage,
+//         }
+//     })
+// }
 
 

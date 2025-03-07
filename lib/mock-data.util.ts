@@ -1,4 +1,4 @@
-import {Vehicle, VehicleMileageData, VehicleStatus} from "@/interfaces/entities/vehicle.entity";
+import {Vehicle, VehicleStatus} from "@/interfaces/entities/vehicle.entity";
 import {Location} from "@/interfaces/entities/location.entity";
 
 // Generate random coordinates near a base location
@@ -211,69 +211,33 @@ export function generateFleetStatistics(vehicles: Vehicle[]) {
     };
 }
 
-// Generate dates for the last 15 days
-export function generateMockData(days = 15) {
-    const dates: string[] = generateDateRange(days);
 
-    // Generate mock vehicles with mileage data
-    const vehicles = [
-        {
-            id: "v1",
-            name: "Truck A",
-            color: "#3b82f6",
-            mileage: generateVehicleMileageData("v1", days),
-        },
-        {
-            id: "v2",
-            name: "Truck B",
-            color: "#10b981",
-            mileage: generateVehicleMileageData("v2", days),
-        },
-        {
-            id: "v3",
-            name: "Van C",
-            color: "#f59e0b",
-            mileage: generateVehicleMileageData("v3", days),
-        },
-        {
-            id: "v4",
-            name: "Truck D",
-            color: "#ef4444",
-            mileage: generateVehicleMileageData("v4", days),
-        },
-    ]
+export function generateFleetMileageData() {
+    const dates: string[] = generateDateRange();
+    const baseTotalMileage: number = 800 + Math.floor(Math.random() * 300);
+    const totalMileageIncrement: number = 40 + Math.floor(Math.random() * 20);
 
-    return { dates, vehicles };
+    let totalDistance = 0;
+
+    const data = dates.map((date, i) => {
+        const randomFactor: number = Math.random() * 200 - 100;
+        const totalMileage: number = Math.round(baseTotalMileage + i * totalMileageIncrement + randomFactor);
+        totalDistance += totalMileage;
+
+        const dayOfWeek = new Date(date).getDay();
+        let avgFactor = dayOfWeek === 0 || dayOfWeek === 6 ? 0.7 + Math.random() * 0.4
+            : dayOfWeek === 1 || dayOfWeek === 5 ? 0.9 + Math.random() * 0.4
+                : 1.0 + Math.random() * 0.5;
+
+        const randomVariation: number = Math.random() * 15 - 7;
+        const avgMileage: number = Math.round(60 + i * 2 * avgFactor + randomVariation);
+
+        return {
+            date,
+            "Total Fleet Mileage (km)": totalMileage,
+            "Average Vehicle Mileage (km)": avgMileage,
+        };
+    });
+
+    return { data, totalDistance };
 }
-
-// Update the getMockVehicles function to return 20 vehicles
-export function getMockVehicles(): Vehicle[] {
-    return generateMockVehicles();
-}
-
-let vehiclesCache: Vehicle[] | null = null;
-const simulateDelay = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 500));
-}
-
-// Update the getMileageData function in the API service
-export async function getMileageData(days = 15): Promise<{ dates: string[]; vehicles: VehicleMileageData[] }> {
-    await simulateDelay();
-
-    if (!vehiclesCache) {
-        vehiclesCache = generateMockVehicles(20);
-    }
-
-    const dates: string[]  = generateDateRange(days);
-
-    // Generate mileage data for all vehicles
-    const vehicles: VehicleMileageData[] = vehiclesCache.map((vehicle) => ({
-        id: vehicle.id,
-        name: `${vehicle.make} ${vehicle.model} (${vehicle.licensePlate})`,
-        color: "#ef4444", // Use consistent color as we're showing aggregated data
-        mileage: generateVehicleMileageData(vehicle.id, days),
-    }));
-
-    return { dates, vehicles };
-}
-

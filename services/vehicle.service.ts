@@ -1,20 +1,21 @@
-import {FleetStatistics, Vehicle, VehicleMileageData} from "@/interfaces/entities/vehicle.entity";
+import { FleetStatistics, Vehicle, VehicleMileageData } from "@/interfaces/entities/vehicle.entity";
 import {
     generateDateRange,
     generateFleetStatistics,
-    generateMockVehicles, generateVehicleMileageData,
+    generateMockVehicles,
+    generateVehicleMileageData,
     simulateVehicleMovement
 } from "@/lib/mock-data.util";
 
-// Simular retraso de API
+// Simulate API delay
 const simulateDelay = (ms = 500) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// Caché para datos mock para persistir entre llamadas
-let vehiclesCache: Vehicle[] | null = null
-let statisticsCache: FleetStatistics | null = null
+// Cache for mock data to persist between calls
+let vehiclesCache: Vehicle[] | null = null;
+let statisticsCache: FleetStatistics | null = null;
 
 class MockAPI {
-    // Obtener todos los vehículos
+    // Get all vehicles
     async getVehicles(): Promise<Vehicle[]> {
         await simulateDelay();
 
@@ -25,35 +26,35 @@ class MockAPI {
         return [...vehiclesCache];
     }
 
-    // Obtener un solo vehículo por ID
+    // Get a single vehicle by ID
     async getVehicle(id: string): Promise<Vehicle | null> {
-        await simulateDelay()
+        await simulateDelay();
 
         if (!vehiclesCache) {
-            vehiclesCache = generateMockVehicles(20)
+            vehiclesCache = generateMockVehicles(20);
         }
 
-        return vehiclesCache.find((v) => v.id === id) || null
+        return vehiclesCache.find((v) => v.id === id) || null;
     }
 
-    // Actualizar la ubicación del vehículo (simula actualizaciones en tiempo real)
+    // Update vehicle location (simulates real-time updates)
     async updateVehicleLocation(id: string): Promise<Vehicle | null> {
-        await simulateDelay(200) // Respuesta más rápida para actualizaciones de ubicación
+        await simulateDelay(200); // Faster response for location updates
 
         if (!vehiclesCache) {
-            vehiclesCache = generateMockVehicles(20)
+            vehiclesCache = generateMockVehicles(20);
         }
 
-        const vehicleIndex = vehiclesCache.findIndex((v) => v.id === id)
-        if (vehicleIndex === -1) return null
+        const vehicleIndex = vehiclesCache.findIndex((v) => v.id === id);
+        if (vehicleIndex === -1) return null;
 
-        const updatedVehicle = simulateVehicleMovement(vehiclesCache[vehicleIndex])
-        vehiclesCache[vehicleIndex] = updatedVehicle
+        const updatedVehicle = simulateVehicleMovement(vehiclesCache[vehicleIndex]);
+        vehiclesCache[vehicleIndex] = updatedVehicle;
 
-        return updatedVehicle
+        return updatedVehicle;
     }
 
-    // Obtener estadísticas de la flota
+    // Get fleet statistics
     async getFleetStatistics(): Promise<FleetStatistics> {
         await simulateDelay();
 
@@ -65,10 +66,10 @@ class MockAPI {
             statisticsCache = generateFleetStatistics(vehiclesCache);
         }
 
-        return { ...statisticsCache }
+        return { ...statisticsCache };
     }
 
-    // Obtener datos de kilometraje para gráficos
+    // Get mileage data for charts
     async getMileageData(days = 15): Promise<{ dates: string[]; vehicles: VehicleMileageData[] }> {
         await simulateDelay();
 
@@ -78,27 +79,27 @@ class MockAPI {
 
         const dates = generateDateRange(days);
 
-        // Generar datos de kilometraje para todos los vehículos
+        // Generate mileage data for all vehicles
         const vehicles: VehicleMileageData[] = vehiclesCache.slice(0, 20).map((vehicle, index) => {
-            // Asignar un color basado en el índice
-            const colors = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444"]
+            // Assign a color based on the index
+            const colors = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444"];
 
             return {
                 id: vehicle.id,
                 name: `${vehicle.make || ""} ${vehicle.model || ""} (${vehicle.licensePlate})`,
                 color: colors[index % colors.length],
                 mileage: generateVehicleMileageData(vehicle.id, days),
-            }
-        })
+            };
+        });
 
         return { dates, vehicles };
     }
 
-    // Actualizar todos los datos (simula polling)
+    // Refresh all data (simulates polling)
     async refreshData(): Promise<{ vehicles: Vehicle[]; statistics: FleetStatistics }> {
         await simulateDelay();
 
-        // Actualizar todas las posiciones de los vehículos
+        // Update all vehicle positions
         if (vehiclesCache) {
             vehiclesCache = vehiclesCache.map((vehicle) => simulateVehicleMovement(vehicle));
             statisticsCache = generateFleetStatistics(vehiclesCache);
@@ -110,9 +111,9 @@ class MockAPI {
         return {
             vehicles: [...vehiclesCache],
             statistics: { ...statisticsCache },
-        }
+        };
     }
 }
 
-// Exportar una instancia singleton
+// Export a singleton instance
 export const vehiclesApi = new MockAPI();
